@@ -54,7 +54,7 @@ rule snaptools_1st_align:
 
 rule snaptools_1st_snap:
 	input :
-		"01_bam/{sample}.1st.bam"
+		"01_bam/{sample}_1st.bam"
 	output:
 		("02_snap/{sample}_1st.snap")
 	shell:

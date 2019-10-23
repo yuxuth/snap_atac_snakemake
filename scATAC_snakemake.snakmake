@@ -80,7 +80,7 @@ rule barcode_dump:
 	input: 
 		"02_snap/{sample}_1st.snapfile"
 	output:
-		"03_barcode_info/{sample}.barcodeinfo"
+		"03_barcode_info/{sample}.barcode_info"
 	shell:
 		"""
 		snaptools dump-barcode \

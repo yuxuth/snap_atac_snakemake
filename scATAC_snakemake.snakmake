@@ -6,7 +6,7 @@ FILES = json.load(open('./samples.json'))
 SAMPLES = sorted(FILES.keys())
 
 TARGETS = []
-final_snap_file = expand("02_snap/{sample}_2nd.snapfile", sample = SAMPLES)
+final_snap_file = expand("02_snap/{sample}_2nd.snap", sample = SAMPLES)
 TARGETS.extend(final_snap_file)
 
 rule all:
@@ -78,7 +78,7 @@ rule snaptools_1st_snap:
 
 rule barcode_dump:
 	input: 
-		"02_snap/{sample}_1st.snapfile"
+		"02_snap/{sample}_1st.snap"
 	output:
 		"03_barcode_info/{sample}.barcode_info"
 	shell:
@@ -140,7 +140,7 @@ rule snaptools_2nd_snap_pre:
 	input :
 		"01_bam/{sample}_2nd.bam"
 	output:
-		("02_snap/{sample}_2nd.snapfile") ## temp bam file
+		("02_snap/{sample}_2nd.snap") ## temp bam file
 	shell:
 		"""
 		snaptools snap-pre  \

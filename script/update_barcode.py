@@ -43,7 +43,7 @@ def find_one_mismatch(barcode_set,barcode,f_out_barcode_map):
                 corresponding_whitelist_barcode = newbarcode ## first one 
     if b_found:
         f_out_barcode_map.write(" ".join([barcode,corresponding_whitelist_barcode,"\n"]))
-        return 1. ## only one mismatch
+        return 1 ## only one mismatch
     return 2 ## no one mismatch found in whilelist
 
 
@@ -61,7 +61,7 @@ def catagorize_barcode(line,barcode_set,f_out_barcode_map):
         match_type = find_one_mismatch(barcode_set,barcode,f_out_barcode_map)
     return (barcode, fragments, match_type)
 
-def find_barcode_info(fragmentsfilename,barcodes,barcode_map_file,barcode_log_file):
+def find_barcode_info(fragmentsfilename,barcodes,barcode_map_file,barcode_log_file,OUTPUT_FILENAME):
 
     # Build barcode index
     barcode_set = set(barcodes) # A set structre makes the lookup faster.
@@ -180,5 +180,6 @@ fragement_filename = snakemake.input['count']
 barcodes = from_file_to_barcode_list('barcode_whitelist.txt.gz') ## change the position ?
 barcode_map_file = snakemake.output['map']
 barcode_log_file = snakemake.output['log']
+OUTPUT_FILENAME =  snakemake.output['sum']
 find_barcode_info(fragement_filename,barcodes,barcode_map_file,
-    barcode_log_file)
+    barcode_log_file,OUTPUT_FILENAME)

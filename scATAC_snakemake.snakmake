@@ -95,9 +95,11 @@ rule barcode_count:
 		" cat {input} | sort | uniq -c > {output}"
 
 rule barcode_info_update:
-	input: "03_barcode_info/{sample}.barcode_count"
-	output: "03_barcode_info/{sample}.barcode_final_modify",
-			"03_barcode_info/{sample}.barcode_final_summary"
+	input: count = "03_barcode_info/{sample}.barcode_count"
+	output: 
+			sum = "03_barcode_info/{sample}.barcode_final_summary",
+			map = "03_barcode_info/{sample}.barcode_final_map",
+			log = "03_barcode_info/{sample}.barcode_log",
 	script:
 		"script/update_barcode.py"
 

@@ -60,7 +60,7 @@ r1 = snakemake.input['r1']
 r2 = snakemake.input['r2']
 barcode_dic = newbarcode_white_list_dic(snakemake.input['barcode_info'])
 out_r1 = snakemake.output['r1']
-out_r2 = snakemake.output['r1']
+out_r2 = snakemake.output['r2']
 barcode_set = from_file_to_barcode_list('barcode_whitelist.txt.gz') ## provide in the snakefile current location
 
 update_fastq(r1,r2,barcode_dic,out_r1,out_r2, barcode_set )

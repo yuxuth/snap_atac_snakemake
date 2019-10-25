@@ -23,8 +23,11 @@ def extract_from_line(line):
     '''
     This function is used to extract barcode count info from a line.
     '''
-    (fragments,barcode) = line.strip().split(" ")
-    return (int(fragments),barcode)
+#     (fragments,barcode) = line.strip().split("\t")
+    curr = line.strip().split("\t")
+    return (int(curr[1]),curr[0])
+    
+#     return (int(fragments),barcode)
 
 
 def find_one_mismatch(barcode_set,barcode,f_out_barcode_map):

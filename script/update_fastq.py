@@ -111,7 +111,7 @@ def update_fastq(r1,out_r1, barcode_dic ): ## process one files
 
 r1 = str(snakemake.input[0])
 # r2 = str(snakemake.input['r2'])
-barcode_dic = newbarcode_white_list_dic(snakemake.input['barcode_info'])
+barcode_dic = newbarcode_white_list_dic(snakemake.input[1])
 out_r1 = snakemake.output[0]
 # out_r2 = snakemake.output['r2']
 # barcode_set = from_file_to_barcode_list('barcode_whitelist.txt.gz') ## provide in the snakefile current location

@@ -105,8 +105,8 @@ rule barcode_info_update:
 
 rule update_fastq_file_r1:
 	input :
-		r1 = lambda wildcards: FILES[wildcards.sample]['R1'],
-		barcode_info = "03_barcode_info/{sample}.barcode_final_map"
+		lambda wildcards: FILES[wildcards.sample]['R1'],
+		"03_barcode_info/{sample}.barcode_final_map"
 	output :
 		"updated/{sample}_L001_R1_001.fastq.gz"
 	script:
@@ -115,10 +115,10 @@ rule update_fastq_file_r1:
 
 rule update_fastq_file_r2:
 	input :
-		r1 = lambda wildcards: FILES[wildcards.sample]['R2']
-		barcode_info = "03_barcode_info/{sample}.barcode_final_map"
+		lambda wildcards: FILES[wildcards.sample]['R2'],
+		"03_barcode_info/{sample}.barcode_final_map"
 	output :
-		r2 = "updated/{sample}_L001_R2_001.fastq.gz"
+		"updated/{sample}_L001_R2_001.fastq.gz"
 	script:
 		"script/update_fastq.py"		
 

@@ -72,7 +72,7 @@ rule snaptools_1st_snap:
 		  --keep-secondary=False  \
 		  --overwrite=True  \
 		  --max-num=1000000  \
-		  --min-cov=100  \
+		  --min-cov=0  \
 		  --verbose=False
 	    """	
 

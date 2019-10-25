@@ -92,7 +92,7 @@ rule barcode_count:
 	input: "03_barcode_info/{sample}.barcode_info"
 	output: "03_barcode_info/{sample}.barcode_count"
 	shell:
-		" awk '{ print $3, $2}' {input}  > {output}"
+		" awk '{{print $3, $2}}' {input}  > {output}"
 
 rule barcode_info_update:
 	input: count = "03_barcode_info/{sample}.barcode_count"

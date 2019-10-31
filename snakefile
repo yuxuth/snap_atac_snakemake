@@ -34,8 +34,8 @@ rule snaptools_1st_align:
 		r1 = lambda wildcards: FILES[wildcards.sample]['R1'],
 		r2 = lambda wildcards: FILES[wildcards.sample]['R2']
 	output:
-		("01_bam/{sample}_1st.bam") ## temp bam file
-	threads: 4
+		temp("01_bam/{sample}_1st.bam") ## temp bam file
+	threads: 12
 	shell:
 		"""
 		snaptools align-paired-end  \
@@ -56,7 +56,7 @@ rule snaptools_1st_snap:
 	input :
 		"01_bam/{sample}_1st.bam"
 	output:
-		("02_snap/{sample}_1st.snap")
+		temp("02_snap/{sample}_1st.snap")
 	shell:
 		"""
 		snaptools snap-pre  \
@@ -72,7 +72,7 @@ rule snaptools_1st_snap:
 		  --keep-secondary=False  \
 		  --overwrite=True  \
 		  --max-num=1000000  \
-		  --min-cov=0  \
+		  --min-cov=100  \
 		  --verbose=False
 	    """	
 
@@ -129,7 +129,7 @@ rule snaptools_2nd_align:
 		r1 = "updated/{sample}_L001_R1_001.fastq.gz",
 		r2 = "updated/{sample}_L001_R2_001.fastq.gz"
 	output:
-		("01_bam/{sample}_2nd.bam") ## temp bam file
+		("01_bam/{sample}_2nd.bam") 
 	threads: 12
 	shell:
 		"""
@@ -150,7 +150,7 @@ rule snaptools_2nd_snap_pre:
 	input :
 		"01_bam/{sample}_2nd.bam"
 	output:
-		("02_snap/{sample}_2nd.snap") ## temp bam file
+		("02_snap/{sample}_2nd.snap") 
 	shell:
 		"""
 		snaptools snap-pre  \
@@ -166,7 +166,7 @@ rule snaptools_2nd_snap_pre:
 		  --keep-secondary=False  \
 		  --overwrite=True  \
 		  --max-num=1000000  \
-		  --min-cov=0  \
+		  --min-cov=100  \
 		  --verbose=False
 	    """	
 

@@ -15,8 +15,8 @@ rule all:
 	input: TARGETS
 
 baw_index='/home/gb148/almanlab/genome_ref/Mus_musculus/UCSC/mm10/Sequence/BWAIndex/genome.fa'
-genome_size='../mm10.chrom.sizes'
-genome_name='mm10'
+genome_size='hg38.chrom.sizes'
+genome_name='hg38'
 
 ## start from the demutiplexed fastqs
 # 1. using the snaptools to finish the mapping, extract the barcode information 

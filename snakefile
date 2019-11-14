@@ -7,7 +7,8 @@ SAMPLES = sorted(FILES.keys())
 
 TARGETS = []
 final_snap_file = expand("02_snap/{sample}_2nd.snap", sample = SAMPLES)
-TARGETS.extend(final_snap_file)
+final_snap_file_bm_log = expand("02_snap/{sample}_add_bm.log", sample = SAMPLES)
+TARGETS.extend(final_snap_file,final_snap_file_bm_log)
 
 rule all:
 	input: TARGETS
@@ -170,3 +171,14 @@ rule snaptools_2nd_snap_pre:
 		  --verbose=False
 	    """	
 
+rule snaptools_2nd_snap_add_bm:
+	input :
+		("02_snap/{sample}_2nd.snap") 
+	output:
+		"02_snap/{sample}_add_bm.log"
+	shell:
+		"""
+		snaptools snap-add-bmat  \
+			--snap-file={input}  \
+			--bin-size-list 5000 > {output}
+		"""

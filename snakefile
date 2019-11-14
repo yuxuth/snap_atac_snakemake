@@ -14,8 +14,9 @@ TARGETS.extend(final_snap_file_bm_log)
 rule all:
 	input: TARGETS
 
-baw_index='/home/gb148/almanlab/genome_ref/Mus_musculus/UCSC/mm10/Sequence/BWAIndex/genome.fa'
-genome_size='hg38.chrom.sizes'
+# baw_index='/home/gb148/almanlab/genome_ref/Mus_musculus/UCSC/mm10/Sequence/BWAIndex/genome.fa'
+baw_index='/home/gb148/almanlab/genome_ref/Homo_sapiens/UCSC/hg38/Sequence/BWAIndex/genome.fa'
+genome_size='./hg38.chrom.sizes'
 genome_name='hg38'
 
 ## start from the demutiplexed fastqs

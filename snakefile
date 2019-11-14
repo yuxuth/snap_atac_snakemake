@@ -8,7 +8,8 @@ SAMPLES = sorted(FILES.keys())
 TARGETS = []
 final_snap_file = expand("02_snap/{sample}_2nd.snap", sample = SAMPLES)
 final_snap_file_bm_log = expand("02_snap/{sample}_add_bm.log", sample = SAMPLES)
-TARGETS.extend(final_snap_file,final_snap_file_bm_log)
+TARGETS.extend(final_snap_file)
+TARGETS.extend(final_snap_file_bm_log)
 
 rule all:
 	input: TARGETS

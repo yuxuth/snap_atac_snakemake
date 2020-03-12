@@ -15,9 +15,15 @@ rule all:
 	input: TARGETS
 
 # baw_index='/home/gb148/almanlab/genome_ref/Mus_musculus/UCSC/mm10/Sequence/BWAIndex/genome.fa'
-baw_index='/home/gb148/almanlab/genome_ref/Homo_sapiens/UCSC/hg38/Sequence/BWAIndex/genome.fa'
-genome_size='./hg38.chrom.sizes'
-genome_name='hg38'
+#baw_index='/home/gb148/almanlab/genome_ref/Homo_sapiens/UCSC/hg38/Sequence/BWAIndex/genome.fa'
+#genome_size='./hg38.chrom.sizes'
+#genome_name='hg38'
+
+configfile: "config.yaml"
+    
+baw_index= config['baw_index']
+genome_size= config['genome_size']
+genome_name= config['genome_name']
 
 ## start from the demutiplexed fastqs
 # 1. using the snaptools to finish the mapping, extract the barcode information 

@@ -1,0 +1,3 @@
+baw_index: ~/data/Index/Mus_musculus/UCSC/mm10/Sequence/BWAIndex/genome.fa
+genome_size: ./mm10.chrom.sizes
+genome_name: mm10

@@ -69,7 +69,8 @@ def update_fastq(r1,out_r1, barcode_dic ): ## process one files
     
     f_r1 = gzip.open(r1, 'rt')
     # f_r2 = gzip.open(r2, 'rt')
-    f_out_r1 = gzip.open(out_r1, 'wt')
+#     f_out_r1 = gzip.open(out_r1, 'wt') ## using pigz for zip
+    f_out_r1 = open(out_r1, 'w') 
     # f_out_r2 = gzip.open(out_r2, 'wt')
 
     while True:

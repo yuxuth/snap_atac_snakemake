@@ -179,7 +179,7 @@ for currentArgument, currentValue in arguments:
 """
 
 ## update the argument using through snakemake 
-fragement_filename = snakemake.input['count']
+fragement_filename = snakemake.input[0]
 barcodes = from_file_to_barcode_list('barcode_whitelist.txt.gz') ## change the position ?
 barcode_map_file = snakemake.output['map']
 barcode_log_file = snakemake.output['log']

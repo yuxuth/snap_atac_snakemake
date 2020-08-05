@@ -18,6 +18,23 @@ import itertools
 #     print()
 #     return set(barcodes)
 
+def from_file_to_barcode_list(filename):  ## add the whitelist check
+    '''
+    Load the barcode whitelist into the memory
+    '''
+   
+    # f = open(filename,"r")
+    f = gzip.open(filename,'rt')
+    barcodes = []
+    while(True):
+        line = f.readline().rstrip('\n')
+        if not line:
+            break
+        barcodes.append(line)
+    f.close()
+    print()
+    return set(barcodes)
+
 
 def newbarcode_white_list_dic(barcode_map):
     barcode_dic = {}
@@ -28,7 +45,7 @@ def newbarcode_white_list_dic(barcode_map):
     return barcode_dic
 
 # def update_fastq(r1,r2,out_r1,out_r2, barcode_dic ): ## process two files
-def update_fastq(r1,out_r1, barcode_dic ): ## process one files
+def update_fastq(r1,out_r1, barcode_dic ,white_list_barcode): ## process one files
     """"
     modify the barcode
     """
@@ -90,14 +107,15 @@ def update_fastq(r1,out_r1, barcode_dic ): ## process one files
         # if not (cur_r1_name.split()[0] == cur_r2_name.split()[0] ): sys.exit("error: read name does not match")
     
         cur_barcode = (cur_r1_name[:32].upper())
-        if  cur_barcode in barcode_dic:
-            cur_r1_name = (barcode_dic[cur_barcode]+ cur_r1_name[32:]) ## 32bp cell barcode
+        if  cur_barcode in barcode_dic or cur_barcode in white_list_barcode : ## only the whitelist or corrected barcode are remained
+            if cur_barcode in barcode_dic:
+                cur_r1_name = (barcode_dic[cur_barcode]+ cur_r1_name[32:]) ## 32bp cell barcode
             # cur_r2_name = (barcode_dic[cur_barcode]+ cur_r2_name[32:])
         
-        f_out_r1.write('@' + cur_r1_name +"\n")
-        f_out_r1.write(cur_r1_read+"\n")
-        f_out_r1.write(cur_r1_plus+"\n")
-        f_out_r1.write(cur_r1_qual+"\n")     
+            f_out_r1.write('@' + cur_r1_name +"\n")
+            f_out_r1.write(cur_r1_read+"\n")
+            f_out_r1.write(cur_r1_plus+"\n")
+            f_out_r1.write(cur_r1_qual+"\n")     
     
         # f_out_r2.write('@' + cur_r1_name +"\n")
         # f_out_r2.write(cur_r1_read+"\n")
@@ -112,6 +130,7 @@ def update_fastq(r1,out_r1, barcode_dic ): ## process one files
 
 r1 = str(snakemake.input[0])
 # r2 = str(snakemake.input['r2'])
+white_list_barcode = from_file_to_barcode_list('barcode_whitelist.txt.gz')
 barcode_dic = newbarcode_white_list_dic(snakemake.input[1])
 out_r1 = snakemake.output[0]
 # out_r2 = snakemake.output['r2']
@@ -120,5 +139,5 @@ out_r1 = snakemake.output[0]
 # print(type(r1))
 
 # update_fastq(r1,r2,out_r1,out_r2,barcode_dic )
-update_fastq(r1,out_r1,barcode_dic )
+update_fastq(r1,out_r1,barcode_dic ,white_list_barcode )
 

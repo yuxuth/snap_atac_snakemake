@@ -44,9 +44,11 @@ rule snaptools_1st_align:
 		r2 = lambda wildcards: FILES[wildcards.sample]['R2']
 	output:
 		temp("01_bam/{sample}_1st.bam") ## temp bam file
-	threads: 12
+	threads: 24
 	shell:
 		"""
+		module load bwa
+		module load samtools
 		snaptools align-paired-end  \
 		  --input-reference={baw_index}   \
 		  --input-fastq1={input.r1} \
@@ -68,19 +70,21 @@ rule snaptools_1st_snap:
 		temp("02_snap/{sample}_1st.snap")
 	shell:
 		"""
+		module load bwa
+		module load samtools
 		snaptools snap-pre  \
 		  --input-file={input}  \
 		  --output-snap={output}  \
 		  --genome-name={genome_name}  \
 		  --genome-size={genome_size}  \
-		  --min-mapq=30  \
+		  --min-mapq=10  \
 		  --min-flen=0  \
 		  --max-flen=1000  \
 		  --keep-chrm=TRUE  \
 		  --keep-single=TRUE  \
 		  --keep-secondary=False  \
 		  --overwrite=True  \
-		  --max-num=1000000  \
+		  --max-num=10000000  \
 		  --min-cov=100  \
 		  --verbose=False
 	    """	
@@ -117,9 +121,18 @@ rule update_fastq_file_r1:
 		lambda wildcards: FILES[wildcards.sample]['R1'],
 		"03_barcode_info/{sample}.barcode_final_map"
 	output :
-		"updated/{sample}_L001_R1_001.fastq.gz"
+		"updated/{sample}_L001_R1_001.fastq"
 	script:
 		"script/update_fastq.py"
+		
+rule update_fastq_file_r1_zip:
+	input :
+		"updated/{sample}_L001_R1_001.fastq"
+	output :
+		"updated/{sample}_L001_R1_001.fastq.gz"
+	threads: 16
+	script:
+		"pigz -p {threads} {input}"
 
 
 rule update_fastq_file_r2:
@@ -127,10 +140,18 @@ rule update_fastq_file_r2:
 		lambda wildcards: FILES[wildcards.sample]['R2'],
 		"03_barcode_info/{sample}.barcode_final_map"
 	output :
-		"updated/{sample}_L001_R2_001.fastq.gz"
+		"updated/{sample}_L001_R2_001.fastq"
 	script:
 		"script/update_fastq.py"		
 
+rule update_fastq_file_r2_zip:
+	input :
+		"updated/{sample}_L001_R2_001.fastq"
+	output :
+		"updated/{sample}_L001_R2_001.fastq.gz"
+	threads: 16
+	script:
+		"pigz -p {threads} {input}"
 
 
 rule snaptools_2nd_align:
@@ -139,9 +160,11 @@ rule snaptools_2nd_align:
 		r2 = "updated/{sample}_L001_R2_001.fastq.gz"
 	output:
 		("01_bam/{sample}_2nd.bam") 
-	threads: 12
+	threads: 24
 	shell:
 		"""
+		module load bwa
+		module load samtools
 		snaptools align-paired-end  \
 		  --input-reference={baw_index}   \
 		  --input-fastq1={input.r1} \
@@ -155,6 +178,7 @@ rule snaptools_2nd_align:
 		  --tmp-folder=./ \
 		  --overwrite=TRUE
 	    """		
+	    
 rule snaptools_2nd_snap_pre:
 	input :
 		"01_bam/{sample}_2nd.bam"
@@ -162,19 +186,21 @@ rule snaptools_2nd_snap_pre:
 		("02_snap/{sample}_2nd.snap") 
 	shell:
 		"""
+		module load bwa
+		module load samtools
 		snaptools snap-pre  \
 		  --input-file={input}  \
 		  --output-snap={output}  \
 		  --genome-name={genome_name}  \
 		  --genome-size={genome_size}  \
-		  --min-mapq=30  \
+		  --min-mapq=10  \
 		  --min-flen=0  \
 		  --max-flen=1000  \
 		  --keep-chrm=TRUE  \
 		  --keep-single=TRUE  \
 		  --keep-secondary=False  \
 		  --overwrite=True  \
-		  --max-num=1000000  \
+		  --max-num=10000000  \
 		  --min-cov=100  \
 		  --verbose=False
 	    """	

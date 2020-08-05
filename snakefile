@@ -108,7 +108,7 @@ rule barcode_count:
 		" sed '1d' {input}  > {output}"
 
 rule barcode_info_update:
-	input: count = "03_barcode_info/{sample}.barcode_count"
+	input: "03_barcode_info/{sample}.barcode_count"
 	output: 
 			sum = "03_barcode_info/{sample}.barcode_final_summary",
 			map = "03_barcode_info/{sample}.barcode_final_map",

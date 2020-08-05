@@ -47,7 +47,7 @@ rule snaptools_1st_align:
 	threads: 24
 	shell:
 		"""
-		module load bwa
+		module load BWA
 		module load samtools
 		snaptools align-paired-end  \
 		  --input-reference={baw_index}   \
@@ -70,7 +70,7 @@ rule snaptools_1st_snap:
 		temp("02_snap/{sample}_1st.snap")
 	shell:
 		"""
-		module load bwa
+		module load BWA
 		module load samtools
 		snaptools snap-pre  \
 		  --input-file={input}  \
@@ -163,7 +163,7 @@ rule snaptools_2nd_align:
 	threads: 24
 	shell:
 		"""
-		module load bwa
+		module load BWA
 		module load samtools
 		snaptools align-paired-end  \
 		  --input-reference={baw_index}   \
@@ -186,7 +186,7 @@ rule snaptools_2nd_snap_pre:
 		("02_snap/{sample}_2nd.snap") 
 	shell:
 		"""
-		module load bwa
+		module load BWA
 		module load samtools
 		snaptools snap-pre  \
 		  --input-file={input}  \

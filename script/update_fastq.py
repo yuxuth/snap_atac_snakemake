@@ -89,8 +89,10 @@ def update_fastq(r1,out_r1, barcode_dic ,white_list_barcode): ## process one fil
 #     f_out_r1 = gzip.open(out_r1, 'wt') ## using pigz for zip
     f_out_r1 = open(out_r1, 'w') 
     # f_out_r2 = gzip.open(out_r2, 'wt')
-
+    num_of_fragments = 0 
+    keeped_reads = 0
     while True:
+        num_of_fragments+=1
         cur_r1_name = f_r1.readline().strip()[1:]
         cur_r1_read = f_r1.readline().strip()
         cur_r1_plus = f_r1.readline().strip()
@@ -105,7 +107,7 @@ def update_fastq(r1,out_r1, barcode_dic ,white_list_barcode): ## process one fil
         if cur_r1_name == "" : break
         
         # if not (cur_r1_name.split()[0] == cur_r2_name.split()[0] ): sys.exit("error: read name does not match")
-    
+        
         cur_barcode = (cur_r1_name[:32].upper())
         if  cur_barcode in barcode_dic or cur_barcode in white_list_barcode : ## only the whitelist or corrected barcode are remained
             if cur_barcode in barcode_dic:
@@ -116,6 +118,7 @@ def update_fastq(r1,out_r1, barcode_dic ,white_list_barcode): ## process one fil
             f_out_r1.write(cur_r1_read+"\n")
             f_out_r1.write(cur_r1_plus+"\n")
             f_out_r1.write(cur_r1_qual+"\n")     
+            keeped_reads+=1
     
         # f_out_r2.write('@' + cur_r1_name +"\n")
         # f_out_r2.write(cur_r1_read+"\n")
@@ -126,6 +129,7 @@ def update_fastq(r1,out_r1, barcode_dic ,white_list_barcode): ## process one fil
     f_r1.close()
     # f_r2.close()
     f_out_r1.close()
+    print(" %d reads keeped from %d total" % (keeped_reads, num_of_fragments)) 
     # f_out_r2.close()
 
 r1 = str(snakemake.input[0])

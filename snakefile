@@ -7,9 +7,16 @@ SAMPLES = sorted(FILES.keys())
 
 TARGETS = []
 final_snap_file = expand("02_snap/{sample}_2nd.snap", sample = SAMPLES)
-final_snap_file_bm_log = expand("02_snap/{sample}_add_bm.log", sample = SAMPLES)
+# final_snap_file_bm_log = expand("02_snap/{sample}_add_bm.log", sample = SAMPLES)
+
+
+final_fragment_file = expand("03_fragment/{sample}.bed", sample = SAMPLES)
+
+
 TARGETS.extend(final_snap_file)
-TARGETS.extend(final_snap_file_bm_log)
+# TARGETS.extend(final_snap_file_bm_log)
+
+TARGETS.extend(final_fragment_file)
 
 rule all:
 	input: TARGETS
@@ -142,7 +149,7 @@ rule update_fastq_file_r2:
 	output :
 		"updated/{sample}_L001_R2_001.fastq"
 	script:
-		"script/update_fastq.py"		
+		"script/update_fastq.py "		
 
 rule update_fastq_file_r2_zip:
 	input :
@@ -184,6 +191,8 @@ rule snaptools_2nd_snap_pre:
 		"01_bam/{sample}_2nd.bam"
 	output:
 		("02_snap/{sample}_2nd.snap") 
+	benchmark:
+		"benchmarks/{sample}.2nd_align.txt"
 	shell:
 		"""
 		module load BWA
@@ -216,3 +225,22 @@ rule snaptools_2nd_snap_add_bm:
 			--snap-file={input}  \
 			--bin-size-list 5000 > {output}
 		"""
+
+rule snaptools_final_fg_dump:
+	input :
+		("02_snap/{sample}_2nd.snap") 
+	output:
+		"03_fragment/{sample}.bed"
+	benchmark:
+		"benchmarks/{sample}.fragment_dump.txt"
+	log:
+		"logs/{sample}_dump_fragment.log"
+	shell:
+		"""
+		snaptools dump-fragment --snap-file {input} \
+		--output-file {output}  --buffer-size 10000 \
+		--tmp-folder ./tmp &> {log}
+		"""
+
+
+		

@@ -46,7 +46,7 @@ genome_name= config['genome_name']
 # 9. update the cluster information
 
 
-rule snaptools_1st_align:
+rule 1st_align:
 	input :
 		r1 = lambda wildcards: FILES[wildcards.sample]['R1'],
 		r2 = lambda wildcards: FILES[wildcards.sample]['R2']
@@ -71,7 +71,7 @@ rule snaptools_1st_align:
 		  --overwrite=TRUE
 	    """		
 
-rule snaptools_1st_snap:
+rule 1st_snap:
 	input :
 		"01_bam/{sample}_1st.bam"
 	output:
@@ -115,7 +115,7 @@ rule barcode_count:
 	shell:
 		" sed '1d' {input}  > {output}"
 
-rule barcode_info_update:
+rule update_bd:
 	input: "03_barcode_info/{sample}.barcode_count"
 	output: 
 			sum = "03_barcode_info/{sample}.barcode_final_summary",
@@ -124,7 +124,7 @@ rule barcode_info_update:
 	script:
 		"script/update_barcode.py"
 
-rule update_fastq_file_r1:
+rule r1:
 	input :
 		lambda wildcards: FILES[wildcards.sample]['R1'],
 		"03_barcode_info/{sample}.barcode_final_map"
@@ -133,7 +133,7 @@ rule update_fastq_file_r1:
 	script:
 		"script/update_fastq.py"
 		
-rule update_fastq_file_r1_zip:
+rule r1_zip:
 	input :
 		"updated/{sample}_L001_R1_001.fastq"
 	output :
@@ -143,7 +143,7 @@ rule update_fastq_file_r1_zip:
 		"pigz -p {threads} {input}"
 
 
-rule update_fastq_file_r2:
+rule r2:
 	input :
 		lambda wildcards: FILES[wildcards.sample]['R2'],
 		"03_barcode_info/{sample}.barcode_final_map"
@@ -152,7 +152,7 @@ rule update_fastq_file_r2:
 	script:
 		"script/update_fastq.py"		
 
-rule update_fastq_file_r2_zip:
+rule r2_zip:
 	input :
 		"updated/{sample}_L001_R2_001.fastq"
 	output :
@@ -162,7 +162,7 @@ rule update_fastq_file_r2_zip:
 		"pigz -p {threads} {input}"
 
 
-rule snaptools_2nd_align:
+rule 2nd_align:
 	input :
 		r1 = "updated/{sample}_L001_R1_001.fastq.gz",
 		r2 = "updated/{sample}_L001_R2_001.fastq.gz"
@@ -187,7 +187,7 @@ rule snaptools_2nd_align:
 		  --overwrite=TRUE
 	    """		
 	    
-rule snaptools_2nd_snap_pre:
+rule 2nd_snap_pre:
 	input :
 		"01_bam/{sample}_2nd.bam"
 	output:
@@ -227,7 +227,7 @@ rule snaptools_2nd_snap_add_bm:
 			--bin-size-list 5000 > {output}
 		"""
 
-rule snaptools_final_fg_dump:
+rule fg_dump:
 	input :
 		("02_snap/{sample}_2nd.snap") 
 	output:

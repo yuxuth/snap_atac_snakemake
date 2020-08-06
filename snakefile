@@ -10,7 +10,7 @@ final_snap_file = expand("02_snap/{sample}_2nd.snap", sample = SAMPLES)
 # final_snap_file_bm_log = expand("02_snap/{sample}_add_bm.log", sample = SAMPLES)
 
 
-final_fragment_file = expand("04_fragment/{sample}.bed", sample = SAMPLES)
+final_fragment_file = expand("04_fragment/{sample}.bed.gz", sample = SAMPLES)
 
 
 TARGETS.extend(final_snap_file)
@@ -230,7 +230,7 @@ rule snaptools_final_fg_dump:
 	input :
 		("02_snap/{sample}_2nd.snap") 
 	output:
-		"04_fragment/{sample}.bed"
+		"04_fragment/{sample}.bed.gz"
 	benchmark:
 		"benchmarks/{sample}.fragment_dump.txt"
 	log:

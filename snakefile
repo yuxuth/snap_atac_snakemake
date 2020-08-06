@@ -131,7 +131,7 @@ rule update_fastq_file_r1_zip:
 	output :
 		"updated/{sample}_L001_R1_001.fastq.gz"
 	threads: 16
-	script:
+	shell:
 		"pigz -p {threads} {input}"
 
 
@@ -150,7 +150,7 @@ rule update_fastq_file_r2_zip:
 	output :
 		"updated/{sample}_L001_R2_001.fastq.gz"
 	threads: 16
-	script:
+	shell:
 		"pigz -p {threads} {input}"
 
 

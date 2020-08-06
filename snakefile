@@ -10,7 +10,7 @@ final_snap_file = expand("02_snap/{sample}_2nd.snap", sample = SAMPLES)
 # final_snap_file_bm_log = expand("02_snap/{sample}_add_bm.log", sample = SAMPLES)
 
 
-final_fragment_file = expand("03_fragment/{sample}.bed", sample = SAMPLES)
+final_fragment_file = expand("04_fragment/{sample}.bed", sample = SAMPLES)
 
 
 TARGETS.extend(final_snap_file)
@@ -66,7 +66,7 @@ rule snaptools_1st_align:
 		  --min-cov=0 \
 		  --num-threads={threads}  \
 		  --if-sort=True  \
-		  --tmp-folder=./ \
+		  --tmp-folder=./tmp \
 		  --overwrite=TRUE
 	    """		
 
@@ -182,7 +182,7 @@ rule snaptools_2nd_align:
 		  --min-cov=0 \
 		  --num-threads={threads}  \
 		  --if-sort=True  \
-		  --tmp-folder=./ \
+		  --tmp-folder=./tmp \
 		  --overwrite=TRUE
 	    """		
 	    
@@ -230,7 +230,7 @@ rule snaptools_final_fg_dump:
 	input :
 		("02_snap/{sample}_2nd.snap") 
 	output:
-		"03_fragment/{sample}.bed"
+		"04_fragment/{sample}.bed"
 	benchmark:
 		"benchmarks/{sample}.fragment_dump.txt"
 	log:

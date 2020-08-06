@@ -51,7 +51,7 @@ rule snaptools_1st_align:
 		r2 = lambda wildcards: FILES[wildcards.sample]['R2']
 	output:
 		temp("01_bam/{sample}_1st.bam") ## temp bam file
-	threads: 24
+	threads: 12
 	shell:
 		"""
 		module load BWA
@@ -137,7 +137,7 @@ rule update_fastq_file_r1_zip:
 		"updated/{sample}_L001_R1_001.fastq"
 	output :
 		"updated/{sample}_L001_R1_001.fastq.gz"
-	threads: 16
+	threads: 8
 	shell:
 		"pigz -p {threads} {input}"
 
@@ -149,14 +149,14 @@ rule update_fastq_file_r2:
 	output :
 		"updated/{sample}_L001_R2_001.fastq"
 	script:
-		"script/update_fastq.py "		
+		"script/update_fastq.py"		
 
 rule update_fastq_file_r2_zip:
 	input :
 		"updated/{sample}_L001_R2_001.fastq"
 	output :
 		"updated/{sample}_L001_R2_001.fastq.gz"
-	threads: 16
+	threads: 8
 	shell:
 		"pigz -p {threads} {input}"
 
@@ -167,7 +167,7 @@ rule snaptools_2nd_align:
 		r2 = "updated/{sample}_L001_R2_001.fastq.gz"
 	output:
 		("01_bam/{sample}_2nd.bam") 
-	threads: 24
+	threads: 12
 	shell:
 		"""
 		module load BWA

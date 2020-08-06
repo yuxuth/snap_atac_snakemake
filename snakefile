@@ -17,6 +17,7 @@ TARGETS.extend(final_snap_file)
 # TARGETS.extend(final_snap_file_bm_log)
 
 TARGETS.extend(final_fragment_file)
+localrules: all, barcode_count
 
 rule all:
 	input: TARGETS

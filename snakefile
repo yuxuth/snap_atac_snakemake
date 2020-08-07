@@ -51,7 +51,7 @@ rule aliger_1 :
 	input : r1 = lambda wildcards: FILES[wildcards.sample]['R1'],
 			r2 = lambda wildcards: FILES[wildcards.sample]['R2']
 	output: temp("01_bam/{sample}_1st.bam") ## temp bam file
-	threads: 24
+	threads: 11
 	shell:
 		"""
 		module load BWA
@@ -167,7 +167,7 @@ rule align_2nd:
 		r2 = "updated/{sample}_L001_R2_001.fastq.gz"
 	output:
 		("01_bam/{sample}_2nd.bam") 
-	threads: 24
+	threads: 11
 	shell:
 		"""
 		module load BWA

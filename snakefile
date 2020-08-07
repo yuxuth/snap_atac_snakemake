@@ -17,6 +17,7 @@ TARGETS.extend(final_snap_file)
 # TARGETS.extend(final_snap_file_bm_log)
 
 TARGETS.extend(final_fragment_file)
+
 localrules: all, barcode_count
 
 rule all:
@@ -46,19 +47,17 @@ genome_name= config['genome_name']
 # 9. update the cluster information
 
 
-rule 1st_align:
-	input :
-		r1 = lambda wildcards: FILES[wildcards.sample]['R1'],
-		r2 = lambda wildcards: FILES[wildcards.sample]['R2']
-	output:
-		temp("01_bam/{sample}_1st.bam") ## temp bam file
+rule aliger_1 :
+	input : r1 = lambda wildcards: FILES[wildcards.sample]['R1'],
+			r2 = lambda wildcards: FILES[wildcards.sample]['R2']
+	output: temp("01_bam/{sample}_1st.bam") ## temp bam file
 	threads: 24
 	shell:
 		"""
 		module load BWA
 		module load samtools
 		snaptools align-paired-end  \
-		  --input-reference={baw_index}   \
+		  --input-reference={baw_index}  \
 		  --input-fastq1={input.r1} \
 		  --input-fastq2={input.r2} \
 		  --output-bam={output} \
@@ -69,9 +68,9 @@ rule 1st_align:
 		  --if-sort=True  \
 		  --tmp-folder=./tmp \
 		  --overwrite=TRUE
-	    """		
+		"""
 
-rule 1st_snap:
+rule snap_1st:
 	input :
 		"01_bam/{sample}_1st.bam"
 	output:
@@ -162,7 +161,7 @@ rule r2_zip:
 		"pigz -p {threads} {input}"
 
 
-rule 2nd_align:
+rule align_2nd:
 	input :
 		r1 = "updated/{sample}_L001_R1_001.fastq.gz",
 		r2 = "updated/{sample}_L001_R2_001.fastq.gz"
@@ -187,7 +186,7 @@ rule 2nd_align:
 		  --overwrite=TRUE
 	    """		
 	    
-rule 2nd_snap_pre:
+rule snap_pre_2nd:
 	input :
 		"01_bam/{sample}_2nd.bam"
 	output:

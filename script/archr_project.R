@@ -20,5 +20,5 @@ ArrowFiles <- createArrowFiles(
 proj <- ArchRProject(
     ArrowFiles = ArrowFiles, 
     outputDirectory = outdir,
-    copyArrows = T #This is recommened so that you maintain an unaltered copy for later usage.
+    copyArrows = F #This is recommened so that you maintain an unaltered copy for later usage.
 )

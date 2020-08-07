@@ -6,11 +6,11 @@
         "out": "cluster_log/{rule}.{wildcards.sample}.out",
         "err": "cluster_log/{rule}.{wildcards.sample}.err"
     },
-    "snaptools_1st_align":
+    "1st_align":
     {
       "mem": "25G",
     },
-      "snaptools_2nd_align":
+      "2nd_align":
     {
       "mem": "25G",
     },

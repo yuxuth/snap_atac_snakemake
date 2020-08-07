@@ -52,7 +52,7 @@ rule 1st_align:
 		r2 = lambda wildcards: FILES[wildcards.sample]['R2']
 	output:
 		temp("01_bam/{sample}_1st.bam") ## temp bam file
-	threads: 12
+	threads: 24
 	shell:
 		"""
 		module load BWA
@@ -168,7 +168,7 @@ rule 2nd_align:
 		r2 = "updated/{sample}_L001_R2_001.fastq.gz"
 	output:
 		("01_bam/{sample}_2nd.bam") 
-	threads: 12
+	threads: 24
 	shell:
 		"""
 		module load BWA

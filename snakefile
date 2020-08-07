@@ -11,7 +11,7 @@ final_snap_file = expand("02_snap/{sample}_2nd.snap", sample = SAMPLES)
 
 
 final_fragment_file = expand("04_fragment/{sample}.bed.gz", sample = SAMPLES)
-final_archr_file = expand("05_archr_project/archR_{sample}", sample = SAMPLES)
+final_archr_file = expand("05_archr_project/{sample}.arrow", sample = SAMPLES)
 
 #TARGETS.extend(final_snap_file)
 # TARGETS.extend(final_snap_file_bm_log)
@@ -258,9 +258,16 @@ rule reformate:
 
 rule archr_project:  
     input : "04_fragment/{sample}-Reformat.tsv.gz"
-    output :  directory("05_archr_project/archR_{sample}")
+    output :  "{sample}.arrow"
     params : "archR_{sample}"
     threads : 8
     script: 
         "script/archr_project.R"
+	
+rule mv_arrow:  
+    input :  "{sample}.arrow"
+    output :  "05_archr_project/{sample}.arrow"
+    shell:
+    " mv {input} {output}"
+
 		

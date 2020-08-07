@@ -17,8 +17,8 @@ ArrowFiles <- createArrowFiles(
     addGeneScoreMat = T
 )
 
-proj <- ArchRProject(
-    ArrowFiles = ArrowFiles, 
-    outputDirectory = outdir,
-    copyArrows = F #This is recommened so that you maintain an unaltered copy for later usage.
-)
+# proj <- ArchRProject(
+#     ArrowFiles = ArrowFiles, 
+#     outputDirectory = outdir,
+#     copyArrows = F #This is recommened so that you maintain an unaltered copy for later usage.
+# )

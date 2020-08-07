@@ -19,7 +19,7 @@ final_archr_file = expand("05_archr_project/{sample}.arrow", sample = SAMPLES)
 #TARGETS.extend(final_fragment_file)
 TARGETS.extend(final_archr_file)
 
-localrules: all, barcode_count,tsv
+localrules: all, barcode_count,tsv,mv_arrow
 
 rule all:
 	input: TARGETS
@@ -267,7 +267,6 @@ rule archr_project:
 rule mv_arrow:  
     input :  "{sample}.arrow"
     output :  "05_archr_project/{sample}.arrow"
-    shell:
-    " mv {input} {output}"
+    shell: "mv {input} {output}"
 
 		

@@ -11,14 +11,15 @@ final_snap_file = expand("02_snap/{sample}_2nd.snap", sample = SAMPLES)
 
 
 final_fragment_file = expand("04_fragment/{sample}.bed.gz", sample = SAMPLES)
-
+final_archr_file = expand("05_archr_project/archR_{sample}", sample = SAMPLES)
 
 TARGETS.extend(final_snap_file)
 # TARGETS.extend(final_snap_file_bm_log)
 
 TARGETS.extend(final_fragment_file)
+TARGETS.extend(final_archr_file)
 
-localrules: all, barcode_count
+localrules: all, barcode_count,tsv
 
 rule all:
 	input: TARGETS
@@ -242,5 +243,24 @@ rule fg_dump:
 		--tmp-folder ./tmp &> {log}
 		"""
 
+rule tsv:
+    input : "04_fragment/{sample}.bed.gz"
+    output:  "04_fragment/{sample}.tsv.gz" 
+    shell:
+        "mv  {input} {output}"
+        
+rule reformate:  
+    input :"04_fragment/{sample}.tsv.gz",
+    output : "04_fragment/{sample}-Reformat.tsv.gz"
+    threads : 8
+    script: 
+        "scripts/archr_reformate.R"
 
+rule archr_project:  
+    input : "04_fragment/{sample}-Reformat.tsv.gz"
+    output :  directory("05_archr_project/archR_{sample}")
+    params : "archR_{sample}"
+    threads : 8
+    script: 
+        "scripts/archr_project.R"
 		

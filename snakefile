@@ -11,7 +11,7 @@ final_snap_file = expand("02_snap/{sample}_2nd.snap", sample = SAMPLES)
 
 
 final_fragment_file = expand("04_fragment/{sample}.bed.gz", sample = SAMPLES)
-final_archr_file = expand("05_archr_project/{sample}.arrow", sample = SAMPLES)
+final_archr_file = expand("05_archr_project/{sample}/{sample}.arrow", sample = SAMPLES)
 
 #TARGETS.extend(final_snap_file)
 # TARGETS.extend(final_snap_file_bm_log)
@@ -243,12 +243,7 @@ rule fg_dump:
 		--tmp-folder ./tmp &> {log}
 		"""
 
-rule tsv:
-    input : "04_fragment/{sample}.bed.gz"
-    output:  "04_fragment/{sample}.tsv.gz" 
-    shell:
-        "mv  {input} {output}"
-        
+
 rule reformate:  
     input :"04_fragment/{sample}.tsv.gz",
     output : "04_fragment/{sample}-Reformat.tsv.gz"
@@ -258,15 +253,12 @@ rule reformate:
 
 rule archr_project:  
     input : "04_fragment/{sample}-Reformat.tsv.gz"
-    output :  "{sample}.arrow"
-    params : "archR_{sample}"
-    threads : 8
+    output :  "05_archr_project/{sample}/{sample}.arrow"
+    params : "05_archr_project/{sample}"
+    threads : 11
     script: 
         "script/archr_project.R"
 	
-rule mv_arrow:  
-    input :  "{sample}.arrow"
-    output :  "05_archr_project/{sample}.arrow"
-    shell: "mv {input} {output}"
+
 
 		

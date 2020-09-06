@@ -19,7 +19,7 @@ final_archr_file = expand("05_archr_project/{sample}/{sample}.arrow", sample = S
 #TARGETS.extend(final_fragment_file)
 TARGETS.extend(final_archr_file)
 
-localrules: all, barcode_count,tsv,mv_arrow
+localrules: all, barcode_count
 
 rule all:
 	input: TARGETS
@@ -52,7 +52,7 @@ rule aliger_1 :
 	input : r1 = lambda wildcards: FILES[wildcards.sample]['R1'],
 			r2 = lambda wildcards: FILES[wildcards.sample]['R2']
 	output: temp("01_bam/{sample}_1st.bam") ## temp bam file
-	threads: 11
+	threads: 24
 	shell:
 		"""
 		module load BWA
@@ -138,7 +138,7 @@ rule r1_zip:
 		"updated/{sample}_L001_R1_001.fastq"
 	output :
 		"updated/{sample}_L001_R1_001.fastq.gz"
-	threads: 8
+	threads: 11
 	shell:
 		"pigz -p {threads} {input}"
 
@@ -157,7 +157,7 @@ rule r2_zip:
 		"updated/{sample}_L001_R2_001.fastq"
 	output :
 		"updated/{sample}_L001_R2_001.fastq.gz"
-	threads: 8
+	threads: 11
 	shell:
 		"pigz -p {threads} {input}"
 
@@ -168,7 +168,7 @@ rule align_2nd:
 		r2 = "updated/{sample}_L001_R2_001.fastq.gz"
 	output:
 		("01_bam/{sample}_2nd.bam") 
-	threads: 11
+	threads: 24
 	shell:
 		"""
 		module load BWA

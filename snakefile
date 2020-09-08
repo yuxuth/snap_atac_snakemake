@@ -19,7 +19,7 @@ final_archr_file = expand("05_archr_project/{sample}/{sample}.arrow", sample = S
 #TARGETS.extend(final_fragment_file)
 TARGETS.extend(final_archr_file)
 
-localrules: all, barcode_count
+localrules: all, barcode_count,update_bd
 
 rule all:
 	input: TARGETS
@@ -35,17 +35,6 @@ baw_index= config['baw_index']
 genome_size= config['genome_size']
 genome_name= config['genome_name']
 
-## start from the demutiplexed fastqs
-# 1. using the snaptools to finish the mapping, extract the barcode information 
-# 2. examine the barcode collision to correct the fastq file 
-# 3. modify the fastq file based on the barcode hash 
-# 4. rerun the snaptools to create the final snapfile
-# 4.1 doublet selection to remove the potential doublet
-# 5. using snapatac to generate the bin-guided clustering 
-# 6. export the peak for each cluster 
-# 7. update the peak matrix in the snapfile. 
-# 8. recluster everything based on the peak matrix
-# 9. update the cluster information
 
 
 rule aliger_1 :

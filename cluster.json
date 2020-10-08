@@ -2,17 +2,17 @@
     "__default__":
     {
         "job": "{rule}.{wildcards.sample}",
-        "mem": "15G",
+        "mem": "30G",
         "out": "cluster_log/{rule}.{wildcards.sample}.out",
         "err": "cluster_log/{rule}.{wildcards.sample}.err"
     },
     "1st_align":
     {
-      "mem": "25G",
+      "mem": "30G",
     },
       "2nd_align":
     {
-      "mem": "25G",
+      "mem": "30G",
     },
 
 }
